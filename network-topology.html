@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>توپولوژی شبکه</title>
+<style>
+:root{--bg:#070713;--card:rgba(255,255,255,.05);--fg:#eef0ff;--mut:#a3a5cb;--a:#22d3ee;--b:#34d399;--line:rgba(255,255,255,.12);--glow:.35;--dx:-1;--bd:270deg;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root{--bg:#f3f2ff;--card:rgba(255,255,255,.78);--fg:#171633;--mut:#5d5f86;--a:#0891b2;--b:#059669;--line:rgba(60,50,140,.16);--glow:.12;color-scheme:light}}
+html[dir=ltr]{--dx:1;--bd:90deg}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:Vazirmatn,Tahoma,"Segoe UI",system-ui,sans-serif;line-height:1.7;overflow:hidden;position:relative}
+html[lang=en] body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(40vmax 40vmax at 15% 10%,var(--a),transparent 70%),radial-gradient(36vmax 36vmax at 95% 95%,var(--b),transparent 70%);opacity:var(--glow);animation:drift 14s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;opacity:.35;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
+@keyframes drift{to{transform:scale(1.15) translate(2%,2%)}}
+.deck{height:100%;position:relative;z-index:2}
+.slide{--c:var(--a);position:absolute;inset:0;display:flex;flex-direction:column;justify-content:safe center;padding:8vh 8vw 12vh;overflow-y:auto;opacity:0;visibility:hidden;transform:translateX(calc(var(--dx)*50px)) scale(.98);transition:opacity .5s,transform .5s,visibility .5s}
+.slide[data-s=B]{--c:var(--b)}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.slide.past{transform:translateX(calc(var(--dx)*-50px)) scale(.98)}
+.g{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{font-size:clamp(2.1rem,6.5vw,4.4rem);margin:0 0 1rem;line-height:1.3}
+h2{font-size:clamp(1.45rem,3.6vw,2.5rem);margin:0 0 1.1rem;line-height:1.35}
+.sub{color:var(--mut);font-size:clamp(1rem,2vw,1.4rem);max-width:40ch}
+ul{list-style:none;padding:0;margin:0;display:grid;gap:.6rem;max-width:62rem}
+li{font-size:clamp(.94rem,1.7vw,1.22rem);background:var(--card);border:1px solid var(--line);border-inline-start:3px solid var(--c);border-radius:14px;padding:.65rem 1rem;backdrop-filter:blur(10px);opacity:0;transform:translateY(16px)}
+li b,.card b{color:var(--c)}
+.on li{animation:up .55s forwards;animation-delay:calc(.15s + var(--i)*.1s)}
+@keyframes up{to{opacity:1;transform:none}}
+.on .cards,.on .scroll,.on .chain,.on .math,.on .ex,.on .refs{animation:fade .7s .2s both}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}}
+ul+.cards,ul+.scroll,ul+.chain,ul+.math,.cards+.ex,.scroll+.ex,.chain+.ex,.math+.ex{margin-top:1rem}
+.ex{margin-top:1rem;color:var(--mut);font-size:clamp(.9rem,1.6vw,1.1rem);max-width:62rem}.ex b{color:var(--c)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;max-width:68rem}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:16px;padding:.9rem 1.1rem;font-size:clamp(.85rem,1.5vw,1.02rem);line-height:1.65;backdrop-filter:blur(10px)}
+.card h3{margin:0 0 .35rem;color:var(--c);font-size:1.15em}
+.card svg{display:block;width:100%;height:auto;max-height:100px;margin-bottom:.4rem}
+.chain{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:66rem}
+.chain b{color:var(--b);font-weight:400;font-size:1.2rem}
+.chain b::before{content:"←"}
+html[dir=ltr] .chain b::before{content:"→"}
+.chain span{background:var(--card);border:1px solid var(--c);border-radius:10px;padding:.35rem .75rem;font-size:clamp(.82rem,1.5vw,1.02rem)}
+.chain span.d{border-color:var(--b)}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:separate;border-spacing:5px;font-size:clamp(.82rem,1.6vw,1.08rem)}
+td,th{padding:.5rem .9rem;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:10px}
+th{color:var(--c);font-weight:700;border-color:var(--c)}
+td:first-child{font-weight:700;color:var(--mut)}
+td.st{border-color:var(--c);color:var(--fg);font-weight:600}
+td.e{background:none;border-color:transparent}
+.math{direction:ltr;text-align:left;font-family:"Cambria Math",Cambria,Georgia,serif;font-style:italic;font-size:clamp(1rem,2.3vw,1.6rem);padding:.8rem 1.3rem;border-radius:14px;border:1px solid var(--line);background:var(--card);overflow-x:auto;max-width:36rem}
+.rh{margin:1.3rem 0 .2rem;color:var(--mut);font-size:1rem}
+.slide[data-s=R] h1{font-size:clamp(1.8rem,5vw,3.2rem);margin-bottom:.3rem}
+.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.5rem .8rem;max-width:68rem;margin-top:.6rem}
+.refs a,.refs div{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.45rem .8rem;font-size:clamp(.74rem,1.3vw,.92rem);line-height:1.5;color:var(--fg);text-decoration:none;overflow-wrap:anywhere;backdrop-filter:blur(8px)}
+.refs a:hover{border-color:var(--b)}
+.refs b{display:block;color:var(--b);font-weight:600;font-size:.82em}
+.refs i{display:block;font-style:normal;color:var(--mut);direction:ltr;text-align:left;font-size:.85em}
+.bar{position:fixed;inset-inline-start:0;top:0;height:4px;width:0;background:linear-gradient(var(--bd),var(--a),var(--b));box-shadow:0 0 12px var(--b);transition:width .3s;z-index:5}
+.nav{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));inset-inline-end:18px;display:flex;gap:8px;align-items:center;color:var(--mut);font-size:.9rem;z-index:5}
+.ctl{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));inset-inline-end:16px;z-index:6}
+.nav button,.ctl button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:12px;font:inherit;cursor:pointer;backdrop-filter:blur(8px)}
+.nav button{width:40px;height:40px;font-size:1.1rem}
+.ctl button{padding:.45rem .9rem;font-size:.85rem}
+.nav button:hover,.ctl button:hover{border-color:var(--b)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,body::before{animation:none!important;transition:none!important}li,.cards,.scroll,.chain,.math,.ex,.refs{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="ctl"><button id="lg"></button></div>
+<main class="deck" id="deck"></main>
+<div class="nav"><button id="prev"></button><span id="count"></span><button id="next"></button></div>
+<script>
+function C(a){return '<div class="cards">'+a.map(function(c){return '<div class="card">'+(c[2]||'')+'<h3>'+c[0]+'</h3>'+c[1]+'</div>'}).join('')+'</div>'}
+function CH(a,cl){return '<div class="chain">'+a.map(function(x,k){return (k?'<b></b>':'')+'<span'+(cl&&cl[k]?' class="'+cl[k]+'"':'')+'>'+x+'</span>'}).join('')+'</div>'}
+function TB(r){return '<div class="scroll"><table><tr>'+r[0].map(function(h){return '<th>'+h+'</th>'}).join('')+'</tr>'+r.slice(1).map(function(w){return '<tr>'+w.map(function(c){return '<td>'+c+'</td>'}).join('')+'</tr>'}).join('')+'</table></div>'}
+function M(x){return '<div class="math">'+x+'</div>'}
+var T={fa:{thx:'از توجه شما سپاسگزاریم',q:'پرسش؟',ref:'منابع استفاده‌شده',v:'ویدیو',w:'وب',b:'کتاب / مقاله',tog:'English',nx:'←',pv:'→',nxl:'بعدی',pvl:'قبلی'},en:{thx:'Thank you',q:'Questions?',ref:'References used',v:'Video',w:'Web',b:'Book / Paper',tog:'فارسی',nx:'→',pv:'←',nxl:'Next',pvl:'Previous'}};
+function sv(N,L){return '<svg viewBox="0 0 160 100" aria-hidden="true">'+L.map(function(l){return '<line x1="'+N[l[0]][0]+'" y1="'+N[l[0]][1]+'" x2="'+N[l[1]][0]+'" y2="'+N[l[1]][1]+'" stroke="var(--mut)" stroke-width="2"/>'}).join('')+N.map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(p[2]||7)+'" fill="'+(p[2]>7?'var(--a)':'var(--b)')+'"/>'}).join('')+'</svg>'}
+var BUS=sv([[8,50,1],[152,50,1],[30,50,1],[65,50,1],[100,50,1],[135,50,1],[30,22],[65,78],[100,22],[135,78]],[[0,1],[2,6],[3,7],[4,8],[5,9]]);
+var STAR=sv([[80,50,11],[80,10],[130,30],[130,72],[80,92],[30,72],[30,30]],[[0,1],[0,2],[0,3],[0,4],[0,5],[0,6]]);
+var RING=sv([[118,50],[99,83],[61,83],[42,50],[61,17],[99,17]],[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]]);
+var MESH=sv([[80,10],[130,45],[110,90],[50,90],[30,45]],[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]);
+var TREE=sv([[80,12,11],[40,50],[120,50],[20,88],[60,88],[100,88],[140,88]],[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]);
+function BL(a){return a.map(function(x){return '• '+x}).join('<br>')}
+function PC(l,p,c,s){return C([[l[0],BL(p),s],[l[1],BL(c)]])}
+var LF=['مزایا','معایب'],LE=['Advantages','Disadvantages'];
+var FA=[
+{s:'T',t:'<span class="g">توپولوژی شبکه</span>',sub:'چگونه دستگاه‌ها در یک شبکهٔ کامپیوتری به هم وصل می‌شوند و چرا این چیدمان مهم است'},
+{t:'توپولوژی شبکه چیست؟',p:['<b>تعریف:</b> شیوهٔ چیدمان و اتصال اجزای یک شبکه. هر دستگاه یک <b>گره (Node)</b> و هر اتصال یک <b>پیوند (Link)</b> است','<b>توپولوژی فیزیکی:</b> چیدمان واقعی کابل‌ها و دستگاه‌ها در محیط','<b>توپولوژی منطقی:</b> مسیری که داده عملاً بین گره‌ها طی می‌کند؛ ممکن است با شکل فیزیکی فرق داشته باشد (مثلاً شبکه‌ای که فیزیکی ستاره است ولی منطقی مثل باس رفتار می‌کند)','انتخاب توپولوژی بر <b>هزینه، سرعت، پایداری، سهولت عیب‌یابی و گسترش‌پذیری</b> اثر می‌گذارد']},
+{t:'نگاه کلی به پنج توپولوژی رایج',s:'B',raw:C([['باس (Bus)','همه روی یک کابل مشترک.',BUS],['ستاره (Star)','همه به یک مرکز وصل‌اند.',STAR],['حلقه (Ring)','هر گره به دو همسایه.',RING],['مش (Mesh)','هر گره با چند گره دیگر.',MESH],['درخت (Tree)','ستاره‌ها در ساختار سلسله‌مراتبی.',TREE]])},
+{t:'توپولوژی باس (Bus)',p:['همهٔ گره‌ها از طریق نقاط اتصال به یک کابل اصلی مشترک (ستون فقرات) وصل‌اند و دو سر کابل با «ترمیناتور» بسته می‌شود','هر پیام روی کابل پخش می‌شود و همهٔ گره‌ها آن را می‌شنوند؛ فقط گیرندهٔ مقصد آن را می‌پذیرد','در اترنت‌های قدیمی (کابل هم‌محور) رایج بود و برای جلوگیری از برخورد بسته‌ها از CSMA/CD استفاده می‌شد'],raw:PC(LF,['کم‌هزینه و کابل‌کشی ساده','مناسب شبکه‌های کوچک و موقت'],['قطع کابل اصلی کل شبکه را از کار می‌اندازد','با افزایش گره‌ها برخورد بسته‌ها و کندی زیاد می‌شود','عیب‌یابی سخت و طول کابل محدود است'])},
+{t:'توپولوژی ستاره (Star)',s:'B',p:['هر گره با یک کابل جدا به یک دستگاه مرکزی (سوئیچ یا هاب) وصل می‌شود','سوئیچ ترافیک را فقط به مقصد می‌فرستد؛ هاب آن را به همه پخش می‌کند','متداول‌ترین توپولوژی شبکه‌های محلی امروزی (LAN) با کابل جفت‌تابیده، و در Wi-Fi نیز نقطهٔ دسترسی نقش مرکز را دارد'],raw:PC(LF,['افزودن و حذف گره آسان است','خرابی یک کابل فقط همان گره را قطع می‌کند','عیب‌یابی و مدیریت متمرکز ساده است'],['خرابی دستگاه مرکزی کل شبکه را متوقف می‌کند','کابل بیشتری نسبت به باس لازم است','هزینهٔ سوئیچ'],STAR)},
+{t:'توپولوژی حلقه (Ring)',p:['هر گره دقیقاً به دو همسایه وصل است و داده در یک جهت (یا در حلقهٔ دوگانه، دو جهت) می‌چرخد','در Token Ring و FDDI، فقط گرهٔ دارندهٔ «توکن» اجازهٔ ارسال دارد؛ پس برخوردی رخ نمی‌دهد','حلقهٔ دوگانه (مثل FDDI) با مسیر پشتیبان، تحمل خطا را بالا می‌برد'],raw:PC(LF,['دسترسی منصفانه و عملکرد قابل پیش‌بینی','بدون برخورد بسته‌ها'],['در حلقهٔ ساده، قطع یک گره یا پیوند می‌تواند شبکه را مختل کند','افزودن گره، شبکه را موقتاً قطع می‌کند','تأخیر با افزایش گره‌ها زیاد می‌شود'],RING)},
+{t:'توپولوژی مش (Mesh)',s:'B',p:['در مش کامل، هر گره مستقیماً به همهٔ گره‌های دیگر وصل است؛ در مش جزئی فقط به برخی','چند مسیر برای رسیدن به مقصد وجود دارد و در صورت خرابی، ترافیک از مسیر دیگر می‌رود','در ستون فقرات شبکه‌ها، مسیریابی اینترنت و شبکه‌های مش بی‌سیم استفاده می‌شود'],raw:M('پیوندهای مش کامل = n (n − 1) / 2')+PC(LF,['پایداری و تحمل خطای بسیار بالا','بدون گلوگاه ترافیکی'],['تعداد کابل و پورت زیاد و هزینهٔ بالا','پیکربندی پیچیده'],MESH),x:'<b>مثال:</b> برای ۱۰ گره، مش کامل به ۴۵ پیوند نیاز دارد؛ برای ۱۰۰ گره، ۴۹۵۰ پیوند.'},
+{t:'توپولوژی درخت (Tree) و ترکیبی (Hybrid)',p:['<b>درخت:</b> ساختار سلسله‌مراتبی از یک ریشه و سطح‌های پایین‌تر؛ در عمل ستاره‌هایی که با یک ستون فقرات یا سوئیچ سطح بالاتر به هم وصل شده‌اند','<b>ترکیبی:</b> ترکیب دو یا چند توپولوژی (مثل ستاره-باس یا ستاره-مش) برای سازمان‌های بزرگ'],raw:PC(LF,['گسترش‌پذیر و مناسب گروه‌بندی (طبقه، بخش)','قطع یک شاخه، شاخه‌های دیگر را کمتر تحت‌تأثیر می‌گذارد'],['خرابی ریشه یا ستون فقرات شبکه را تکه‌تکه می‌کند','کابل‌کشی و مدیریت پیچیده‌تر'],TREE)},
+{t:'مقایسهٔ توپولوژی‌ها',s:'B',raw:TB([['توپولوژی','هزینه','پایداری','گسترش‌پذیری','کاربرد معمول'],['باس','کم','کم','ضعیف','شبکهٔ کوچک و قدیمی'],['ستاره','متوسط','متوسط (وابسته به مرکز)','خوب','LAN امروزی'],['حلقه','متوسط','متوسط','متوسط','FDDI و شبکه‌های شهری'],['مش','زیاد','بسیار بالا','دشوار و پرهزینه','ستون فقرات و مسیریابی'],['درخت','متوسط','متوسط','خوب','شبکه‌های سازمانی']])},
+{t:'چگونه توپولوژی را انتخاب کنیم؟',p:['بررسی <b>اندازهٔ شبکه</b>، <b>بودجه</b>، نیاز به <b>پایداری</b> و <b>رشد آیندهٔ</b> شبکه','شبکهٔ کوچک و کم‌هزینه: باس یا ستاره؛ امروز معمولاً ستاره','نیاز به دسترس‌پذیری بالا (مراکز داده، ستون فقرات): مش کامل یا جزئی','شبکهٔ بزرگ سازمانی: درخت یا ترکیبی؛ ستاره‌ها در لایه‌های سلسله‌مراتبی']},
+{t:'جمع‌بندی',s:'B',p:['توپولوژی، چیدمان گره‌ها و پیوندها در شبکه است و هم‌زمان هزینه، سرعت و پایداری را تعیین می‌کند','باس ارزان ولی شکننده؛ ستاره ساده و رایج؛ حلقه منظم ولی حساس به قطع؛ مش بسیار پایدار ولی گران؛ درخت و ترکیبی برای شبکه‌های بزرگ','در عمل بیشتر شبکه‌ها ترکیبی از چند توپولوژی هستند']}
+];
+var EN=[
+{s:'T',t:'<span class="g">Network Topology</span>',sub:'How devices are connected in a computer network, and why the layout matters'},
+{t:'What is network topology?',p:['<b>Definition:</b> the way the parts of a network are laid out and connected. Each device is a <b>node</b> and each connection is a <b>link</b>','<b>Physical topology:</b> the real layout of cables and devices','<b>Logical topology:</b> the path data actually takes between nodes; it can differ from the physical shape (for example a physical star that behaves like a bus)','The choice affects <b>cost, speed, reliability, ease of troubleshooting and scalability</b>']},
+{t:'The five common topologies at a glance',s:'B',raw:C([['Bus','Everyone on one shared cable.',BUS],['Star','Everyone connects to a center.',STAR],['Ring','Each node joins two neighbors.',RING],['Mesh','Each node links to several others.',MESH],['Tree','Stars arranged in a hierarchy.',TREE]])},
+{t:'Bus topology',p:['All nodes attach through taps to one shared main cable (the backbone), with terminators at both ends','Every message is broadcast on the cable and all nodes hear it; only the destination accepts it','Common in early Ethernet (coaxial cable), which used CSMA/CD to handle collisions'],raw:PC(LE,['Cheap and simple cabling','Good for small or temporary networks'],['A break in the main cable takes the whole network down','More nodes means more collisions and slowdown','Hard to troubleshoot; cable length is limited'])},
+{t:'Star topology',s:'B',p:['Each node uses its own cable to a central device (a switch or hub)','A switch forwards traffic only to its destination; a hub repeats it to everyone','The most common topology in modern LANs using twisted-pair cable; in Wi-Fi the access point plays the center'],raw:PC(LE,['Easy to add or remove nodes','One cable failure affects only that node','Central management and troubleshooting are simple'],['If the central device fails, the whole network stops','Needs more cable than a bus','Cost of the switch'],STAR)},
+{t:'Ring topology',p:['Each node connects to exactly two neighbors and data circulates in one direction (or two, in a dual ring)','In Token Ring and FDDI only the node holding the “token” may send, so there are no collisions','A dual ring (as in FDDI) adds a backup path and improves fault tolerance'],raw:PC(LE,['Fair access and predictable performance','No collisions'],['In a simple ring, one failed node or link can disrupt the network','Adding a node briefly interrupts service','Delay grows as nodes are added'],RING)},
+{t:'Mesh topology',s:'B',p:['In a full mesh every node links directly to every other node; in a partial mesh only to some','There are several routes to a destination, so traffic can go around a failure','Used in network backbones, Internet routing and wireless mesh networks'],raw:M('Full-mesh links = n (n − 1) / 2')+PC(LE,['Very high reliability and fault tolerance','No traffic bottleneck'],['Many cables and ports, so cost is high','Complex configuration'],MESH),x:'<b>Example:</b> 10 nodes need 45 links in a full mesh; 100 nodes need 4,950.'},
+{t:'Tree and hybrid topologies',p:['<b>Tree:</b> a hierarchy with a root and lower levels; in practice, stars joined by a backbone or higher-level switches','<b>Hybrid:</b> a combination of two or more topologies (such as star-bus or star-mesh) for large organizations'],raw:PC(LE,['Scalable and good for grouping (floors, departments)','A failed branch affects other branches less'],['A failed root or backbone splits the network','Cabling and management are more complex'],TREE)},
+{t:'Comparing the topologies',s:'B',raw:TB([['Topology','Cost','Reliability','Scalability','Typical use'],['Bus','Low','Low','Poor','Small, older networks'],['Star','Medium','Medium (depends on center)','Good','Modern LANs'],['Ring','Medium','Medium','Medium','FDDI, metro networks'],['Mesh','High','Very high','Hard and costly','Backbones and routing'],['Tree','Medium','Medium','Good','Enterprise networks']])},
+{t:'How to choose a topology',p:['Consider <b>network size</b>, <b>budget</b>, need for <b>reliability</b> and <b>future growth</b>','Small, low-cost network: bus or star; today usually star','High availability (data centers, backbones): full or partial mesh','Large enterprise network: tree or hybrid, with stars in hierarchical layers']},
+{t:'Summary',s:'B',p:['Topology is the layout of nodes and links, and it sets cost, speed and reliability together','Bus: cheap but fragile; star: simple and common; ring: orderly but sensitive to breaks; mesh: very reliable but costly; tree and hybrid: for large networks','In practice most networks combine several topologies']}
+];
+var REF=[['v','ALL Network Topologies Explained in 5 MINS!','https://www.youtube.com/watch?v=lEmBNqoBpZU'],['w','Wikipedia: Network topology','https://en.wikipedia.org/wiki/Network_topology'],['b','Tanenbaum & Wetherall, Computer Networks (Pearson)',''],['b','Kurose & Ross, Computer Networking: A Top-Down Approach (Pearson)',''],['b','Stallings, Data and Computer Communications (Pearson)','']];
+
+var lang='fa',i=0,n=0,el,d=document.getElementById('deck'),bar=document.getElementById('bar'),cnt=document.getElementById('count'),pv=document.getElementById('prev'),nx=document.getElementById('next'),lg=document.getElementById('lg');
+function build(){
+ var t=T[lang],S=(lang==='fa'?FA:EN).concat([{s:'R'}]),h=document.documentElement;
+ h.lang=lang;h.dir=lang==='fa'?'rtl':'ltr';n=S.length;d.innerHTML='';
+ S.forEach(function(o){var e=document.createElement('section');e.className='slide';e.dataset.s=o.s||'A';
+  e.innerHTML=o.s==='T'?'<h1>'+o.t+'</h1><div class="sub">'+o.sub+'</div>':o.s==='R'?'<h1><span class="g">'+t.thx+'</span></h1><div class="sub">'+t.q+'</div><div class="rh">'+t.ref+'</div><div class="refs">'+REF.map(function(r){var x='<b>'+t[r[0]]+'</b><span dir="ltr">'+r[1]+'</span>';return r[2]?'<a href="'+r[2]+'" target="_blank" rel="noopener">'+x+'<i>'+r[2].replace(/^https?:\/\/(www\.)?/,'')+'</i></a>':'<div>'+x+'</div>'}).join('')+'</div>':'<h2>'+o.t+'</h2>'+(o.p?'<ul>'+o.p.map(function(x,k){return '<li style="--i:'+k+'">'+x+'</li>'}).join('')+'</ul>':'')+(o.raw||'')+(o.x?'<div class="ex">'+o.x+'</div>':'');
+  d.appendChild(e)});
+ el=d.children;lg.textContent=t.tog;pv.textContent=t.pv;nx.textContent=t.nx;pv.setAttribute('aria-label',t.pvl);nx.setAttribute('aria-label',t.nxl);
+go(i)}
+function go(k){i=Math.max(0,Math.min(n-1,k));for(var j=0;j<n;j++)el[j].className='slide'+(j===i?' on':j<i?' past':'');bar.style.width=((i+1)/n*100)+'%';cnt.textContent=(i+1).toLocaleString(lang)+' / '+n.toLocaleString(lang)}
+nx.onclick=function(){go(i+1)};pv.onclick=function(){go(i-1)};
+lg.onclick=function(){lang=lang==='fa'?'en':'fa';build()};
+document.addEventListener('keydown',function(e){var fa=lang==='fa';
+ if(['ArrowDown','PageDown',' ',fa?'ArrowLeft':'ArrowRight'].indexOf(e.key)>-1){e.preventDefault();go(i+1)}
+ if(['ArrowUp','PageUp',fa?'ArrowRight':'ArrowLeft'].indexOf(e.key)>-1){e.preventDefault();go(i-1)}
+ if(e.key==='Home')go(0);if(e.key==='End')go(n-1)});
+var x0=null;
+document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)go(i+((dx<0)===(lang!=='fa')?1:-1));x0=null});
+build();
+</script>
+</body>
+</html>
